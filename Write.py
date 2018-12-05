@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-
+#make sure opencv-python is installed locally
 import numpy as np
 import cv2
 import argparse
