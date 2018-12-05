@@ -4,6 +4,7 @@ import numpy as np
 import cv2
 import argparse
 from collections import deque
+import random
 
 
 cap=cv2.VideoCapture(0)
@@ -40,7 +41,7 @@ while True:
 		if pts[i-1]is None or pts[i] is None:
 			continue
 		thick = int(np.sqrt(len(pts) / float(i + 1)) * 2.5)
-		cv2.line(img, pts[i-1],pts[i],(0,0,225),thick)
+		cv2.line(img, pts[i-1],pts[i],(random.randint(0, 255),random.randint(0, 255),random.randint(0, 255)),thick)
 		
 	
 	cv2.imshow("Frame", img)
