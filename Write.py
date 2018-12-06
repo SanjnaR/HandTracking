@@ -13,21 +13,26 @@ pts = deque(maxlen=64)
 
 Lower_blue = np.array([110,50,50])
 Upper_blue = np.array([130,255,255])
+
+lower = np.array([0,0,0])
+upper = np.array([0,0,0])
+
 while True:
 	ret, img=cap.read()
 	hsv=cv2.cvtColor(img,cv2.COLOR_BGR2HSV)
 	kernel=np.ones((5,5),np.uint8)
-	mask=cv2.inRange(hsv,Lower_blue,Upper_blue)
-	mask = cv2.erode(mask, kernel, iterations=1)
+	mask=cv2.inRange(hsv,Lower_blue,Upper_blue) #probably should uncomment
+	mask2=cv2.inRange(hsv, lower, upper)
+	mask=cv2.erode(mask, kernel, iterations=1)
 	mask=cv2.morphologyEx(mask,cv2.MORPH_OPEN,kernel)
-	#mask=cv2.morphologyEx(mask,cv2.MORPH_CLOSE,kernel)
+#	mask=cv2.morphologyEx(mask,cv2.MORPH_OPEN,kernel)
 	mask = cv2.dilate(mask, kernel, iterations=2) 
 	res=cv2.bitwise_and(img,img,mask=mask)
 	cnts,heir=cv2.findContours(mask.copy(),cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)[-2:]
 
 
-	draw=cv2.bitwise_and(img, img, mask=mask)
-	gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY); 
+	draw=cv2.bitwise_and(img, img, mask=mask2)
+	gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
 	center = None
  
@@ -49,9 +54,6 @@ while True:
 		thickness_color = int(np.sqrt(len(pts) / float(i + 1)) * 2)
 		cv2.line(gray, pts[i-1],pts[i],(0,0,0),thick)
 		cv2.line(draw, pts[i-1],pts[i],(random.randint(0, 255),random.randint(0, 255),random.randint(0, 255)),thickness_color) #random colors
-		
-
-
 
 	cv2.imshow("Frame", img)
 	cv2.imshow("gray", gray)
