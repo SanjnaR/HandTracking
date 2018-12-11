@@ -58,7 +58,7 @@ while True:
 		M = cv2.moments(c)
 		center = (int(M["m10"] / M["m00"]), int(M["m01"] / M["m00"]))
  
-		if radius > 10: # can we make it smaller to see it on a larger frame?
+		if radius > 5: # can we make it smaller to see it on a larger frame?
 			cv2.circle(img, (int(x), int(y)), int(radius),(0, 255, 255), 2)
 			cv2.circle(img, center, 5, (0, 0, 255), -1)
 		
